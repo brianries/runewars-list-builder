@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "material-ui": "^0.19.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.17",
-    "react-select": "^1.0.0-rc.10"
+    "react-select": "^1.0.0-rc.10",
+    "react-tap-event-plugin": "^3.0.2"
   },
   "homepage": "https://brianries.github.io/runewars-list-builder",
   "scripts": {
