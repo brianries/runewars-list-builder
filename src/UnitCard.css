@@ -2,39 +2,39 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	padding: 0,
+	padding: 5px;
 }
 
 .unitSelectContainer {
 	flex: 3;
 	display: flex;
 	flex-direction: column;			
-	margin: 0;
-	padding: 0;
+	padding: 5px;
 }
 
 .unitCostContainer {
 	flex: 1;
 	display: flex;
-	flex-direction: column;		
+	flex-direction: row;	
+	padding: 5px;
 }
 
 .unitUpgradeContainer {
 	flex: 20;
 	display: flex;
-	padding: 10;
+	padding: 5px;
 }
 
 .buttonContainer {
 	flex: 4;
 	display: flex;
 	flex-direction: row;
-	padding: 10;
+	margin: 5px;
 }
 
 .selectUnit {
 	flex: 1;	
-	margin: 12;
+	margin: 5px;
 }
 
 .paper {
@@ -42,19 +42,23 @@
 }
 
 .costText {
-	text-align: center;
-	margin: auto;
+	flex: 1;
+	font-size: 150%;
+	text-align: center;	
+	margin: 5px;
 }
 
 .selectUpgrade {
 	flex: 2;	 
-	margin: 12;
+	margin: 10px;
 }	
 
 .removeButton {	
 	margin: auto;
+	padding: 5px;
 }
 
 .copyButton {
 	margin: auto;
+	padding: 5px;
 }
