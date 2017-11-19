@@ -1,0 +1,57 @@
+.topContainer {		
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 0,
+}
+
+.unitSelectContainer {
+	flex: 6;
+	display: flex;
+	flex-direction: column;			
+	margin: 10;
+	padding: 40;
+}
+
+.unitCostContainer {
+	flex: 1;
+	display: flex;
+	width: 100%;
+	margin: auto;
+	padding: auto;	    
+}
+
+.unitUpgradeContainer {
+	flex: 20;
+	display: flex;
+	padding: 10;
+}
+
+.buttonContainer {
+	flex: 4;
+	display: flex;
+	flex-direction: row;
+	padding: 10;
+}
+
+.selectUnit {
+	flex: 1;	
+	margin: 12;
+}
+
+.paper {
+	width: 100%;	
+}
+
+.selectUpgrade {
+	flex: 2;	 
+	margin: 12;
+}	
+
+.removeButton {	
+	margin: auto;
+}
+
+.copyButton {
+	margin: auto;
+}
