@@ -22,7 +22,7 @@ class UnitList extends Component {
 		return (
 			<div>
 				{existingCards}
-				<UnitCard cardIndex={lastCardIndex} unitValue={null} onUnitChange={this.handleUnitChange} onRemove={this.handleRemove}/>	    
+				<UnitCard cardIndex={lastCardIndex} unitValue={null} onUnitChange={this.handleUnitChange} onRemove={this.handleRemove} onCopy={this.handleCopy}/>	    
 			</div>
 		)
 	}
