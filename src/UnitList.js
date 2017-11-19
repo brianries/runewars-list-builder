@@ -16,13 +16,19 @@ class UnitList extends Component {
 	render() {	
 		const lastCardIndex = this.state.units.length;		
 		const existingCards = this.state.units.map((element, index) => (
-			<UnitCard cardIndex={index} unitValue={element.unitValue} onUnitChange={this.handleUnitChange} onRemove={this.handleRemove} onCopy={this.handleCopy}/>	    
+			<UnitCard 
+				cardIndex={index} 
+				unitValue={element.unitValue} 								
+				onUnitChange={this.handleUnitChange} 
+				onRemove={this.handleRemove} 
+				onCopy={this.handleCopy}
+			/>	    
 		));
 		
 		return (
 			<div>
 				{existingCards}
-				<UnitCard cardIndex={lastCardIndex} unitValue={null} onUnitChange={this.handleUnitChange} onRemove={this.handleRemove} onCopy={this.handleCopy}/>	    
+				<UnitCard cardIndex={lastCardIndex} unitValue={null} onUnitChange={this.handleUnitChange} isNewOption={true}/>	    
 			</div>
 		)
 	}

@@ -52,9 +52,26 @@ class UnitCard extends Component {
 		};
 	}
 	
-	render() {				
-		return (
-			<div>
+	render() {
+		let panel = null;
+		if (this.props.isNewOption) {
+			return (
+				<div>
+				<Card>
+					<div className="topContainer">
+						<div className="unitSelectContainer">
+							<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitValue} onChange={this.handleUnitChange}>
+								{this.getUnitMenuItems()}
+							</SelectField>
+						</div>
+					</div>	
+				</Card>
+				</div>
+			);
+		}
+		else {
+			return (
+				<div>
 				<Card>
 				<div className="topContainer">
 					<div className="unitSelectContainer">
@@ -67,7 +84,9 @@ class UnitCard extends Component {
 					</div>
 					<div className="unitCostContainer">			
 						<Paper className="paper">
-							0
+							<div className="costText">
+								0
+							</div>
 						</Paper>
 					</div>	
 					<div className="unitUpgradeContainer">
@@ -84,9 +103,12 @@ class UnitCard extends Component {
 					</div>
 				</div>
 				</Card>
-			</div>
-		);		
-	}	
+				</div>
+			);		
+		}
+	}
+	
+	
 	
 	handleRemove(event) {
 		this.props.onRemove(this.props.cardIndex);
