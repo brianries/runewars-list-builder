@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import UnitList from './UnitList';
 
-import './App.css';
+import {connect} from 'react-redux'
 
+import './Layout.css';
 
 // Needed for onTouchTap (http://stackoverflow.com/a/34015469/988941)
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -15,10 +14,10 @@ injectTapEventPlugin()
 
 document.body.style.backgroundColor = "gray";
 
-class App extends Component {
+class Layout extends Component {
 	render() {
-		return (
-			<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+		return (		
+			<div>	
 				<AppBar title="Runewars List Builder" /> 		 
 				<div className="mainPanel">
 					<div className="unitContainer">
@@ -31,10 +30,17 @@ class App extends Component {
 							Description
 						</Paper>
 					</div>						
-				</div>
-			</MuiThemeProvider>
+				</div>			
+			</div>
 		)
-	}
+	}	
 }
 
-export default App;
+function mapStoreToProps(store) {
+	return {
+		units: store.units
+	};
+}
+
+
+export default connect(mapStoreToProps)(Layout);
