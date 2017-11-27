@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-
+import * as unitAction from "../actions/unitActions";
 import UnitCard from './UnitCard';
+
+var unitData = require("../data/unitData.json");
 
 class UnitList extends Component {	
 	constructor(props) {
@@ -8,14 +10,11 @@ class UnitList extends Component {
 		this.handleUnitChange = this.handleUnitChange.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
-		this.state = {
-			units: []
-		};
 	}
 	
 	render() {	
-		const lastCardIndex = this.state.units.length;		
-		const existingCards = this.state.units.map((element, index) => (
+		const lastCardIndex = this.props.units.length;		
+		const existingCards = this.props.units.map((element, index) => (
 			<UnitCard 
 				cardIndex={index} 
 				unitValue={element.unitValue} 								
@@ -35,27 +34,39 @@ class UnitList extends Component {
 	
 	
 	handleUnitChange(cardIndex, value) {	
-		var unitsCopy = this.state.units.slice();
+		var unitsCopy = this.props.units.slice();
 		unitsCopy[cardIndex] = {unitValue: value};
-		this.setState({units: unitsCopy});	
+		this.props.dispatch(unitAction.setUnit(cardIndex, value));
 	}	
 	
 	handleRemove(cardIndex) {
-		if (cardIndex !== this.state.units.length) {
-			this.setState({
-				units: this.state.units.filter((_, i) => i !== cardIndex)
-			});
+		if (cardIndex !== this.props.units.length) {
+			this.props.dispatch(unitAction.removeUnit(cardIndex));			
 		}
 	}
 	
 	handleCopy(cardIndex) {
-		if (cardIndex !== this.state.units.length) {
-		    var unit = this.state.units[cardIndex];
-			var unitsCopy = this.state.units.slice();
+		if (cardIndex !== this.props.units.length) {
+			this.props.dispatch(unitAction.copyUnit(cardIndex));
+			/*
+		    var unit = this.props.units[cardIndex];
+			var unitsCopy = this.props.units.slice();
 			unitsCopy.push(unit);
 			this.setState({units: unitsCopy});
+			*/
 		}
 	}
 }
 
+/*
+function mapStoreToProps(store) {
+	return {
+		units: store.units,
+		store: store
+	};
+}
+
+
+export default connect(mapStoreToProps)(UnitList);
+*/
 export default UnitList;

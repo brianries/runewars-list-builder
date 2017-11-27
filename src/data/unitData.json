@@ -1,0 +1,14 @@
+{
+    "units": [
+        {
+            "id": 1,
+            "name": "Kari Wraithstalker",
+            "faction": "Daqan",
+            "unit-type": "Infantry",
+            "wound-threshold": 4,
+            "defense": 3,
+            "melee-attack": ["White", "Blue"],
+            "ranged-attack": ["White", "Blue"]
+        }
+    ]
+}

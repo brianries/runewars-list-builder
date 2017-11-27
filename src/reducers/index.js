@@ -1,9 +1,9 @@
 import {combineReducers} from "redux";
 
-import unit from "./unitReducer";
+import unitList from "./unitReducer";
 import formation from "./formationReducer";
 
 export default combineReducers({
-    unit,
+    unitList,
     formation,
 })

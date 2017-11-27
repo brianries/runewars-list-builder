@@ -1,4 +1,4 @@
-export default function reducer(state={formation: null}, action) {
+export default function reducer(state=[], action) {
     switch(action.type) {
         case "SET_FORMATION": {
             return {...state, formation: action.payload}
