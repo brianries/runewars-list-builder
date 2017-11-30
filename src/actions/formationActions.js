@@ -1,6 +1,6 @@
-export function setFormation(formation) {
+export function setFormation(formationId) {
     return {
         type: 'SET_FORMATION',
-        payload: formation,
+        payload: formationId,
     };
 }

@@ -5,10 +5,66 @@
             "name": "Kari Wraithstalker",
             "faction": "Daqan",
             "unit-type": "Infantry",
-            "wound-threshold": 4,
             "defense": 3,
-            "melee-attack": ["White", "Blue"],
-            "ranged-attack": ["White", "Blue"]
+            "wound_threshold": 4,
+            "melee_attack": ["White", "Blue"],
+            "ranged_attack": ["White", "Blue"],
+            "special_abilities": [1],
+            "enhancements": ["Brutal 1", "Precise 1"],
+            "deployment_ability": "Aymhelin Allies: Your army can include 1 non-unique infantry unit from the Latari Elves.",
+            "dial_image": "kari_wraithstalker.png",
+            "formations": [
+                { "size": "1x1", "cost": 32, "upgrades": ["Artifact", "Unique"]}
+            ]
+            
+        },
+        {
+            "id": 2,
+            "name": "Lord Hawthorne",
+            "faction": "Daqan",
+            "unit-type": "Cavalry",
+            "defense": 3,
+            "wound_threshold": 4,
+            "melee_attack": ["White", "Red"],
+            "ranged_attack": null,
+            "special_abilities": [2,3,4],
+            "enhancements": ["Brutal 1"],
+            "deployment_ability": "Lessons of Seargart Allies: Your army can include 1 non-unique infantry unit from the Latari Elves.",
+            "dial_image": "lord_hawthorne.png",
+            "formations": [
+                { "size": "1x1", "cost": 34, "upgrades": ["Artifact", "Unique"]}
+            ]
         }
-    ]
+    ],
+
+    "special-abilities": [
+        {
+            "id" : 1,
+            "name": "Kari: Fan of blades",
+            "type": "Melee",
+            "surge-modifier": "Surge Plus",
+            "description": "Choose another enemy unit at range 1-5 That enemy suffers 2 damage per {surge} spent."
+        },
+        {
+            "id" : 2,
+            "name": "Daqan inspiration",
+            "type": "Melee",
+            "surge-modifier": "Double Surge",
+            "description": "Receive 1 inspiration token."
+        },
+        {
+            "id": 3,
+            "name": "Hawthorne: Multi-attack",
+            "type": null,
+            "surge-modifier": null,
+            "description": "After you perform a {Melee} you may perform a {Melee} against another enemy that has not been targeted by your {Melee} during this activation."
+        },
+        {
+            "id": 4,
+            "name": "Hawthorne: Inspiration AoE",
+            "type": "Skill",
+            "surge-modifier": null,
+            "description": "Each other ally at range 1-3 receives 1 inspiration token."
+        }
+    ]    
 }

@@ -1,20 +1,20 @@
-export function setUnit(unitIndex, name) {
+export function setUnit(cardIndex, unitId) {
     return {
         type: 'SET_UNIT',
-        payload: {unitIndex, name}
+        payload: {cardIndex, unitId}
     };
 }
 
-export function removeUnit(unitIndex) {
+export function removeUnit(cardIndex) {
     return {
         type: 'REMOVE_UNIT',
-        payload: unitIndex
+        payload: cardIndex
     }
 }
 
-export function copyUnit(unitIndex) {
+export function copyUnit(cardIndex) {
     return {
         type: 'COPY_UNIT',
-        payload: unitIndex
+        payload: cardIndex
     }
 }
