@@ -13,7 +13,8 @@ export default function reducer(state=[], action) {
         }
         case 'REMOVE_UNIT': {
             var copiedList = copyList(state);
-            return copiedList.splice(action.payload.cardIndex, 1);
+            copiedList.splice(action.payload.cardIndex, 1);
+            return copiedList;
         }
         case 'COPY_UNIT': {
             var copiedList = copyList(state);
