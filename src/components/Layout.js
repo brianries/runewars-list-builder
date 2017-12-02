@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
@@ -12,7 +11,7 @@ import './Layout.css';
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-var unitData = require("../data/unitData.json");
+var unitReferenceMap = require("../data/unitData.json");
 
 
 function importAllImages(r) {
@@ -30,16 +29,16 @@ class Layout extends Component {
 	render() {
 		return (		
 			<div>	
-				<AppBar title="Runewars List Builder" /> 		 
+				<AppBar title="Runewars List Builder v0.2" /> 		 
 				<div className="mainPanel">
 					<div className="unitContainer">
-						<UnitList units={this.props.units} dispatch={this.props.dispatch}/>   
+						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={unitReferenceMap}/>   
 					</div>
 					<div className="descriptionContainer">
 						<Paper className="paper" style={{backgroundColor: 'white', color: 'black', padding: 20}}>
 							Unit Title
 							<br/>
-							<img src={dialMap[unitData.units[0].dial_image]}/>
+						{/*	<img src={dialMap[unitReferenceMap.units[0].dial_image]}/> */}
 							Description
 						</Paper>
 					</div>						
@@ -51,7 +50,7 @@ class Layout extends Component {
 
 function mapStateToProps(state) {
 	return {
-		units: state.unitList,
+		unitList: state.unitList,
 		store: state
 	};
 }

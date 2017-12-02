@@ -1,24 +1,31 @@
 import React, {Component} from 'react';
 import * as unitAction from "../actions/unitActions";
+import * as formationAction from "../actions/formationActions";
+import * as upgradeAction from "../actions/upgradeActions";
 import UnitCard from './UnitCard';
-
-var unitData = require("../data/unitData.json");
 
 class UnitList extends Component {	
 	constructor(props) {
 		super(props);									
 		this.handleUnitChange = this.handleUnitChange.bind(this);
+		this.handleFormationChange = this.handleFormationChange.bind(this);
+		this.handleUpgradeChange = this.handleUpgradeChange.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
 	}
 	
 	render() {	
-		const lastCardIndex = this.props.units.length;		
-		const existingCards = this.props.units.map((element, index) => (
+		const lastCardIndex = this.props.unitList.length;		
+		const existingCards = this.props.unitList.map((element, index) => (
 			<UnitCard 
 				cardIndex={index} 
-				unitValue={element.unitValue} 								
-				onUnitChange={this.handleUnitChange} 
+				unitReferenceMap={this.props.unitReferenceMap}
+				unitId={element.unitId} 								
+				formationId={element.formationId}
+				upgradeIds={element.upgradeIds}
+				onUnitChange={this.handleUnitChange} 			
+				onFormationChange={this.handleFormationChange} 
+				onUpgradeChange={this.handleUpgradeChange} 
 				onRemove={this.handleRemove} 
 				onCopy={this.handleCopy}
 			/>	    
@@ -27,46 +34,47 @@ class UnitList extends Component {
 		return (
 			<div>
 				{existingCards}
-				<UnitCard cardIndex={lastCardIndex} unitValue={null} onUnitChange={this.handleUnitChange} isNewOption={true}/>	    
+				<UnitCard 
+					cardIndex={lastCardIndex} 
+					unitReferenceMap={this.props.unitReferenceMap}
+					unitId={null}
+					formationId={null}
+					upgradeIds={null}
+					onUnitChange={this.handleUnitChange} 			
+					isNewOption={true}
+					/>	    
 			</div>
 		)
 	}
 	
 	
 	handleUnitChange(cardIndex, value) {	
-		var unitsCopy = this.props.units.slice();
-		unitsCopy[cardIndex] = {unitValue: value};
+		// Dispatch a unit action to the Redux store
 		this.props.dispatch(unitAction.setUnit(cardIndex, value));
 	}	
+
+	handleFormationChange(cardIndex, value) {
+		// Dispatch a formation action to the Redux store
+		this.props.dispatch(formationAction.setFormation(cardIndex, value));
+	}
+
+	handleUpgradeChange(cardIndex, upgradeIndex, value) {
+		// Dispatch an upgrade action to the Redux store
+		this.props.dispatch(upgradeAction.setUpgrade(cardIndex, upgradeIndex, value));
+	}
 	
 	handleRemove(cardIndex) {
-		if (cardIndex !== this.props.units.length) {
+		// Dispatch a remove action to the Redux store
+		if (cardIndex !== this.props.unitList.length) {
 			this.props.dispatch(unitAction.removeUnit(cardIndex));			
 		}
 	}
 	
 	handleCopy(cardIndex) {
-		if (cardIndex !== this.props.units.length) {
+		if (cardIndex !== this.props.unitList.length) {
 			this.props.dispatch(unitAction.copyUnit(cardIndex));
-			/*
-		    var unit = this.props.units[cardIndex];
-			var unitsCopy = this.props.units.slice();
-			unitsCopy.push(unit);
-			this.setState({units: unitsCopy});
-			*/
 		}
 	}
 }
 
-/*
-function mapStoreToProps(store) {
-	return {
-		units: store.units,
-		store: store
-	};
-}
-
-
-export default connect(mapStoreToProps)(UnitList);
-*/
 export default UnitList;

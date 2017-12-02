@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import Card from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
@@ -13,43 +14,10 @@ class UnitCard extends Component {
 	constructor(props) {
 		super(props);									
 		this.handleUnitChange = this.handleUnitChange.bind(this);
+		this.handleFormationChange = this.handleFormationChange.bind(this);
+		this.handleUpgradeChange = this.handleUpgradeChange.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
-		this.state = {
-			unitList: [
-				{value:0, primaryText:"Spearmen"},
-				{value:1, primaryText:"Oathsworn Cavalry"},
-				{value:2, primaryText:"Rune Golem"},
-				{value:3, primaryText:"Heavy Crossbowmen"},
-				{value:4, primaryText:"Kari Wraithstalker"},
-				{value:5, primaryText:"Lord Hawthorne"},
-			],
-			
-			formationList: [
-				{value:0, primaryText:"1x1"},
-				{value:1, primaryText:"1x2"},
-				{value:2, primaryText:"1x3"},
-				{value:3, primaryText:"1x4"},
-				{value:4, primaryText:"2x1"},
-				{value:5, primaryText:"2x2"},
-				{value:6, primaryText:"2x3"},
-				{value:7, primaryText:"2x4"},
-				{value:9, primaryText:"3x1"},
-				{value:10, primaryText:"3x2"},
-				{value:11, primaryText:"3x3"},
-				{value:12, primaryText:"3x4"},
-				{value:13, primaryText:"4x1"},
-				{value:14, primaryText:"4x2"},
-				{value:15, primaryText:"4x3"},
-				{value:16, primaryText:"4x4"},
-			],
-			
-			upgradeList: [
-				{value:0, primaryText:"Tempered Steel"},
-				{value:1, primaryText:"Rank Discipline"},
-				{value:2, primaryText:"Wind Rune"},
-			],
-		};
 	}
 	
 	render() {
@@ -60,7 +28,7 @@ class UnitCard extends Component {
 				<Card>
 					<div className="topContainer">
 						<div className="unitSelectContainer">
-							<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitValue} onChange={this.handleUnitChange}>
+							<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitId} onChange={this.handleUnitChange}>
 								{this.getUnitMenuItems()}
 							</SelectField>
 						</div>
@@ -75,10 +43,10 @@ class UnitCard extends Component {
 				<Card>
 				<div className="topContainer">
 					<div className="unitSelectContainer">
-						<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitValue} onChange={this.handleUnitChange}>
+						<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitId} onChange={this.handleUnitChange}>
 							{this.getUnitMenuItems()}
 						</SelectField>
-						<SelectField hintText="Select Formation ..." className="selectUnit"	value={this.props.unitValue} onChange={this.handleUnitChange}>
+						<SelectField hintText="Select Formation ..." className="selectUnit"	value={this.props.formationId} onChange={this.handleFormationChange}>
 							{this.getFormationItems()}
 						</SelectField>
 					</div>
@@ -90,12 +58,7 @@ class UnitCard extends Component {
 						</Paper>
 					</div>	
 					<div className="unitUpgradeContainer">
-						<SelectField hintText="Select Upgrade ..."  className="selectUpgrade" value={this.props.unitValue} onChange={this.handleUnitChange}>
-							{this.getUpgradeItems()}
-						</SelectField>				
-						<SelectField hintText="Select Upgrade ..." className="selectUpgrade" value={this.props.unitValue} onChange={this.handleUnitChange}>
-							{this.getUpgradeItems()}
-						</SelectField>
+						{this.getUpgradeSelectFields()}
 					</div>
 					<div className="buttonContainer">
 						<RaisedButton label="Remove" secondary={true} className="removeButton" onClick={this.handleRemove}/>
@@ -107,9 +70,7 @@ class UnitCard extends Component {
 			);		
 		}
 	}
-	
-	
-	
+		
 	handleRemove(event) {
 		this.props.onRemove(this.props.cardIndex);
 	}
@@ -121,24 +82,71 @@ class UnitCard extends Component {
 	handleUnitChange(event, key, value) {
 		this.props.onUnitChange(this.props.cardIndex, value);		 
 	}
+
+	handleFormationChange(event, key, value) {
+		this.props.onFormationChange(this.props.cardIndex, value);		 
+	}
+
+	handleUpgradeChange(event, key, value, upgradeIndex) {
+		this.props.onUpgradeChange(this.props.cardIndex, upgradeIndex, value);
+	}
 	
 	getUnitMenuItems() {
-		return this.state.unitList.map((element) => (
-			<MenuItem value={element.value} primaryText={element.primaryText}/>    
+		return this.props.unitReferenceMap.units.map((unit) => (
+			<MenuItem value={unit.id} primaryText={unit.name} onMouseOver={()=>console.log("Mouseover unit id = " + unit.id)} />    
 		));
 	}
 	
 	getFormationItems() {
-		return this.state.formationList.map((element) => (
-			<MenuItem value={element.value} primaryText={element.primaryText}/>    
+		return this.props.unitReferenceMap.units[this.props.unitId].formations.map((formation) => (
+			<MenuItem value={formation.id} primaryText={formation.size + " (" + formation.cost + ")"}/>    
 		));
+	}
+
+	getUpgradeSelectFields() {
+		var selectFieldArray = [];
+		if (typeof this.props.formationId != 'undefined') {
+			var upgradeTypeArray = this.props.unitReferenceMap.units[this.props.unitId].formations[this.props.formationId].upgradeTypes;			
+			for (var i = 0; i < upgradeTypeArray.length; i++) {
+				var upgradeType = upgradeTypeArray[i];
+				selectFieldArray.push(
+					<SelectField 
+						hintText={"Select " + upgradeType + " ..."}
+						className="selectUpgrade" 
+						value={(typeof this.props.upgradeIds != 'undefined') ? this.props.upgradeIds[i] : null}
+						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
+						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, i)}>
+						{this.getUpgradeItems(upgradeType)}
+					</SelectField>
+				);
+			}
+		}
+		return selectFieldArray;
 	}
 	
-	getUpgradeItems() {
-		return this.state.upgradeList.map((element) => (
+	getUpgradeItems(upgradeType) {
+		/* Need to loop through the relevant upgrade types here -- filtering on faction, unitName, unitType, and uniqueness
+		/*
+		return this.props.unitReferenceMap.units[this.props.unitId].formations.map((element) => (
 			<MenuItem value={element.value} primaryText={element.primaryText}/>    
-		));
+		));*/
+
+		return <MenuItem value={0} primaryText={"Dummy Upgrade"}/>;
 	}
 }
+
+UnitCard.propTypes = {
+	cardIndex: PropTypes.number.isRequired,
+	unitReferenceMap: PropTypes.object.isRequired,
+	unitId: PropTypes.number,
+	formationId: PropTypes.number,
+	upgradeIds: PropTypes.arrayOf(PropTypes.number),
+	onUnitChange: PropTypes.func.isRequired,
+	onFormationChange: PropTypes.func,
+	onUpgradeChange: PropTypes.func,
+	onRemove: PropTypes.func,
+	onCopy: PropTypes.func,
+	isNewOption: PropTypes.bool
+  };
 
 export default UnitCard;

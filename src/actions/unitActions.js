@@ -8,13 +8,13 @@ export function setUnit(cardIndex, unitId) {
 export function removeUnit(cardIndex) {
     return {
         type: 'REMOVE_UNIT',
-        payload: cardIndex
+        payload: {cardIndex}
     }
 }
 
 export function copyUnit(cardIndex) {
     return {
         type: 'COPY_UNIT',
-        payload: cardIndex
+        payload: {cardIndex}
     }
 }
