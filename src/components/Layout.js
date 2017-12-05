@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
@@ -10,8 +11,6 @@ import './Layout.css';
 // Needed for onTouchTap (http://stackoverflow.com/a/34015469/988941)
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
-
-var unitReferenceMap = require("../data/unitData.json");
 
 
 function importAllImages(r) {
@@ -32,7 +31,7 @@ class Layout extends Component {
 				<AppBar title="Runewars List Builder v0.2" /> 		 
 				<div className="mainPanel">
 					<div className="unitContainer">
-						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={unitReferenceMap}/>   
+						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={this.props.unitReferenceMap} upgradeReferenceMap={this.props.upgradeReferenceMap}/>   
 					</div>
 					<div className="descriptionContainer">
 						<Paper className="paper" style={{backgroundColor: 'white', color: 'black', padding: 20}}>
@@ -59,6 +58,13 @@ function mapDispatchToPros(dispatch) {
 	return {
 
 	}
+}
+
+Layout.propTypes = {
+	unitList: PropTypes.arrayOf(PropTypes.object),
+	dispatch: PropTypes.func,
+	unitReferenceMap: PropTypes.object,
+	upgradeReferenceMap: PropTypes.object
 }
 
 export default connect(mapStateToProps)(Layout);

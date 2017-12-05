@@ -109,13 +109,14 @@ class UnitCard extends Component {
 			var upgradeTypeArray = this.props.unitReferenceMap.units[this.props.unitId].formations[this.props.formationId].upgradeTypes;			
 			for (var i = 0; i < upgradeTypeArray.length; i++) {
 				var upgradeType = upgradeTypeArray[i];
+				const index = i;
 				selectFieldArray.push(
 					<SelectField 
 						hintText={"Select " + upgradeType + " ..."}
 						className="selectUpgrade" 
-						value={(typeof this.props.upgradeIds != 'undefined') ? this.props.upgradeIds[i] : null}
+						value={(typeof this.props.upgradeIds != 'undefined') ? this.props.upgradeIds[index] : null}
 						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
-						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, i)}>
+						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}>
 						{this.getUpgradeItems(upgradeType)}
 					</SelectField>
 				);
@@ -125,13 +126,9 @@ class UnitCard extends Component {
 	}
 	
 	getUpgradeItems(upgradeType) {
-		/* Need to loop through the relevant upgrade types here -- filtering on faction, unitName, unitType, and uniqueness
-		/*
-		return this.props.unitReferenceMap.units[this.props.unitId].formations.map((element) => (
-			<MenuItem value={element.value} primaryText={element.primaryText}/>    
-		));*/
-
-		return <MenuItem value={0} primaryText={"Dummy Upgrade"}/>;
+		return this.props.upgradeReferenceMap.upgrades.filter(upgrade => upgrade.upgrade_type === upgradeType).map((upgrade) => (
+			<MenuItem value={upgrade.id} primaryText={upgrade.name}/>
+		));
 	}
 }
 

@@ -1,7 +1,7 @@
-export function setUnit(cardIndex, unitId) {
+export function setUnit(cardIndex, unitId, isNew) {
     return {
         type: 'SET_UNIT',
-        payload: {cardIndex, unitId}
+        payload: {cardIndex, unitId, isNew}
     };
 }
 

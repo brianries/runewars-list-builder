@@ -20,10 +20,11 @@ class UnitList extends Component {
 			<UnitCard 
 				cardIndex={index} 
 				unitReferenceMap={this.props.unitReferenceMap}
+				upgradeReferenceMap={this.props.upgradeReferenceMap}
 				unitId={element.unitId} 								
 				formationId={element.formationId}
 				upgradeIds={element.upgradeIds}
-				onUnitChange={this.handleUnitChange} 			
+				onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, false)} 			
 				onFormationChange={this.handleFormationChange} 
 				onUpgradeChange={this.handleUpgradeChange} 
 				onRemove={this.handleRemove} 
@@ -37,10 +38,11 @@ class UnitList extends Component {
 				<UnitCard 
 					cardIndex={lastCardIndex} 
 					unitReferenceMap={this.props.unitReferenceMap}
+					upgradeReferenceMap={this.props.upgradeReferenceMap}
 					unitId={null}
 					formationId={null}
 					upgradeIds={null}
-					onUnitChange={this.handleUnitChange} 			
+					onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, true)} 			
 					isNewOption={true}
 					/>	    
 			</div>
@@ -48,9 +50,9 @@ class UnitList extends Component {
 	}
 	
 	
-	handleUnitChange(cardIndex, value) {	
+	handleUnitChange(cardIndex, value, isNew) {	
 		// Dispatch a unit action to the Redux store
-		this.props.dispatch(unitAction.setUnit(cardIndex, value));
+		this.props.dispatch(unitAction.setUnit(cardIndex, value, isNew));
 	}	
 
 	handleFormationChange(cardIndex, value) {

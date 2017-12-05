@@ -1,25 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import {createStore} from 'redux';
+import RootReducer from './reducers/RootReducer';
 import './index.css';
-
-import store from "./store";
-import Layout from './components/Layout';
+import App from './App';
 
 import registerServiceWorker from './registerServiceWorker';
 
+
+const reducer = function(state, action) {
+	if (action.type === "INC") {
+		return state + action.payload;
+	}
+	if (action.type === "DEC") {
+		return state - action.payload;;
+	}
+	else {
+		return state;		
+	}
+}
+
+let store = createStore(reducer, 0);
+
+store.subscribe(() => {
+	console.log("store changed", store.getState(0);
+});
+
+store.dispatch({type: "INC", payload: 1})
+store.dispatch({type: "DEC", payload: 1})
+
 ReactDOM.render(
     <Provider store={store}>
-		<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-			<div>
-				<Layout />
-			</div>
-		</MuiThemeProvider>
+		<App />
 	</Provider>,
 	document.getElementById('root')
 );

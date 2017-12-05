@@ -85,7 +85,7 @@
             "melee_attack": ["Red", "Red"],
             "ranged_attack": null,
             "special_abilities": [4],
-            "enhancements": ["Brutal {Stable Rune}"],
+            "enhancements": ["Brutal {Stable Energy}"],
             "deployment_ability": null,
             "dial_image": "rune_golems.png",
             "formations": [
