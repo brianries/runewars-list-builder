@@ -1,9 +1,9 @@
 export default function reducer(state=[], action) {
+    var copiedList = copyList(state);
     switch(action.type) {
         case "SET_UNIT": {
-            var copiedList = copyList(state);
             // Splice with 0 does no deletes, and inserts
-            if (action.payload.isNew == true) {
+            if (action.payload.isNew === true) {
                 copiedList.splice(action.payload.cardIndex, 0, {unitId: action.payload.unitId, formationId: 0}); // set the first formation by default
             }
             else {
@@ -12,23 +12,19 @@ export default function reducer(state=[], action) {
             return copiedList;
         }       
         case "SET_FORMATION": {
-            var copiedList = copyList(state);
             copiedList[action.payload.cardIndex].formationId = action.payload.formationId;
             return copiedList;
         }
         //  payload: {cardIndex, upgradeIndex, upgradeId}
         case 'SET_UPGRADE': {
-            var copiedList = copyList(state);
             copiedList[action.payload.cardIndex].upgradeIds = copyArraySetItem(copiedList[action.payload.cardIndex].upgradeIds, action.payload.upgradeIndex, action.payload.upgradeId);
             return copiedList;
         }
         case 'REMOVE_UNIT': {
-            var copiedList = copyList(state);
             copiedList.splice(action.payload.cardIndex, 1);
             return copiedList;
         }
         case 'COPY_UNIT': {
-            var copiedList = copyList(state);
             var copiedUnit = copyUnit(copiedList[action.payload.cardIndex]);
             copiedList.push(copiedUnit);
             return copiedList;
@@ -52,7 +48,7 @@ function copyUnit(unit) {
 }
 
 function copyArraySetItem(array, index, item) {
-    var arrLength = typeof array == 'undefined' ? 0 : array.length;
+    var arrLength = typeof array === 'undefined' ? 0 : array.length;
     var newArray = new Array(Math.max(arrLength, index+1)).fill(null);
     for (var i = 0; i < arrLength; i++) {
         newArray[i] = array[i];

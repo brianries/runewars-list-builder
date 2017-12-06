@@ -18,6 +18,7 @@ class UnitList extends Component {
 		const lastCardIndex = this.props.unitList.length;		
 		const existingCards = this.props.unitList.map((element, index) => (
 			<UnitCard 
+			    key={"UnitCard"+index}
 				cardIndex={index} 
 				unitReferenceMap={this.props.unitReferenceMap}
 				upgradeReferenceMap={this.props.upgradeReferenceMap}
@@ -36,6 +37,7 @@ class UnitList extends Component {
 			<div>
 				{existingCards}
 				<UnitCard 
+				    key={"NewUnitCard"}
 					cardIndex={lastCardIndex} 
 					unitReferenceMap={this.props.unitReferenceMap}
 					upgradeReferenceMap={this.props.upgradeReferenceMap}
@@ -44,7 +46,7 @@ class UnitList extends Component {
 					upgradeIds={null}
 					onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, true)} 			
 					isNewOption={true}
-					/>	    
+				/>	    
 			</div>
 		)
 	}

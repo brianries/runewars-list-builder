@@ -21,7 +21,6 @@ class UnitCard extends Component {
 	}
 	
 	render() {
-		let panel = null;
 		if (this.props.isNewOption) {
 			return (
 				<div>
@@ -93,28 +92,29 @@ class UnitCard extends Component {
 	
 	getUnitMenuItems() {
 		return this.props.unitReferenceMap.units.map((unit) => (
-			<MenuItem value={unit.id} primaryText={unit.name} onMouseOver={()=>console.log("Mouseover unit id = " + unit.id)} />    
+			<MenuItem key={"unit"+unit.id} value={unit.id} primaryText={unit.name} onMouseOver={()=>console.log("Mouseover unit id = " + unit.id)} />    
 		));
 	}
 	
 	getFormationItems() {
 		return this.props.unitReferenceMap.units[this.props.unitId].formations.map((formation) => (
-			<MenuItem value={formation.id} primaryText={formation.size + " (" + formation.cost + ")"}/>    
+			<MenuItem key={"formation"+formation.id} value={formation.id} primaryText={formation.size + " (" + formation.cost + ")"}/>    
 		));
 	}
 
 	getUpgradeSelectFields() {
 		var selectFieldArray = [];
-		if (typeof this.props.formationId != 'undefined') {
+		if (typeof this.props.formationId !== 'undefined') {
 			var upgradeTypeArray = this.props.unitReferenceMap.units[this.props.unitId].formations[this.props.formationId].upgradeTypes;			
 			for (var i = 0; i < upgradeTypeArray.length; i++) {
 				var upgradeType = upgradeTypeArray[i];
 				const index = i;
 				selectFieldArray.push(
 					<SelectField 
+					    key={"upgradeSelectBox"+i}
 						hintText={"Select " + upgradeType + " ..."}
 						className="selectUpgrade" 
-						value={(typeof this.props.upgradeIds != 'undefined') ? this.props.upgradeIds[index] : null}
+						value={getUpgradeId(this.props.upgradeIds, index)}
 						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
 						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}>
 						{this.getUpgradeItems(upgradeType)}
@@ -127,8 +127,17 @@ class UnitCard extends Component {
 	
 	getUpgradeItems(upgradeType) {
 		return this.props.upgradeReferenceMap.upgrades.filter(upgrade => upgrade.upgrade_type === upgradeType).map((upgrade) => (
-			<MenuItem value={upgrade.id} primaryText={upgrade.name}/>
+			<MenuItem key={"upgrade"+upgrade.id} value={upgrade.id} primaryText={upgrade.name}/>
 		));
+	}
+}
+
+function getUpgradeId(upgradeIdArray, index) {
+	if (typeof upgradeIdArray !== 'undefined' && index < upgradeIdArray.length) {
+		return upgradeIdArray[index];
+	}
+	else {
+		return null;
 	}
 }
 
