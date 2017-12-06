@@ -377,6 +377,48 @@
             "description": null,
             "is_unique": false,
             "cost": 6
+        },
+        {
+            "id": 120,
+            "name": "Front Line Rune Golem",
+            "upgrade_type" : "Heavy",
+            "faction" : "Daqan",
+            "unit_type": "Infantry",
+            "unique_unit": null,
+            "figure_upgrade": {"defense": 4, "wounds": 2},
+            "enhancements": ["Melee Brutal {Stable Energy}"],
+            "skills": null,
+            "description": null,
+            "is_unique": false,
+            "cost": 7
+        },
+        {
+            "id": 130,
+            "name": "Sweeping Strikes",
+            "upgrade_type" : "Unique",
+            "faction" : "Daqan",
+            "unit_type": "Any",
+            "unique_unit": "Lord Hawthorne",
+            "figure_upgrade": null,
+            "enhancements": null,
+            "skills": "{Melee} Your front edge is treated as touching the front edge of all enemies at range 1 that you are not engaged with.",
+            "description": null,
+            "is_unique": false,
+            "cost": 5
+        },
+        {
+            "id": 140,
+            "name": "Wraith Step",
+            "upgrade_type" : "Unique",
+            "faction" : "Daqan",
+            "unit_type": "Any",
+            "unique_unit": "Kari Wraithstalker",
+            "figure_upgrade": null,
+            "enhancements": null,
+            "skills": "{Skill} If you are engaged with an enemy unit, pick up and place your unit so it is touching and aligned with that enemy unit's back edge",
+            "description": null,
+            "is_unique": false,
+            "cost": 1
         }
     ]
 }

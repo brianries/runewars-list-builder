@@ -105,7 +105,8 @@ class UnitCard extends Component {
 	getUpgradeSelectFields() {
 		var selectFieldArray = [];
 		if (typeof this.props.formationId !== 'undefined') {
-			var upgradeTypeArray = this.props.unitReferenceMap.units[this.props.unitId].formations[this.props.formationId].upgradeTypes;			
+			var unit = this.props.unitReferenceMap.units[this.props.unitId];
+			var upgradeTypeArray = unit.formations[this.props.formationId].upgradeTypes;			
 			for (var i = 0; i < upgradeTypeArray.length; i++) {
 				var upgradeType = upgradeTypeArray[i];
 				const index = i;
@@ -117,7 +118,7 @@ class UnitCard extends Component {
 						value={getUpgradeId(this.props.upgradeIds, index)}
 						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
 						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}>
-						{this.getUpgradeItems(upgradeType)}
+						{this.getUpgradeItems(upgradeType, unit.unit_type, unit.faction, unit.name)}
 					</SelectField>
 				);
 			}
@@ -125,11 +126,21 @@ class UnitCard extends Component {
 		return selectFieldArray;
 	}
 	
-	getUpgradeItems(upgradeType) {
-		return this.props.upgradeReferenceMap.upgrades.filter(upgrade => upgrade.upgrade_type === upgradeType).map((upgrade) => (
-			<MenuItem key={"upgrade"+upgrade.id} value={upgrade.id} primaryText={upgrade.name}/>
+	getUpgradeItems(upgradeType, unitType, faction, unitName) {
+		return this.props.upgradeReferenceMap.upgrades.filter(getUpgradeFilter(upgradeType, unitType, faction, unitName)).map((upgrade) => (
+			<MenuItem key={"upgrade"+upgrade.id} value={upgrade.id} primaryText={upgrade.name + " ("+ upgrade.cost + ")"}/>
 		));
 	}
+}
+
+function getUpgradeFilter(upgradeType, unitType, faction, unitName) {
+	return ((upgrade) => {
+		if ((upgrade.upgrade_type === upgradeType) && (upgrade.unit_type === 'Any' || upgrade.unit_type === unitType) &&
+			  (upgrade.faction === 'Any' || upgrade.faction === faction) && (upgrade.unique_unit === null || upgrade.unique_unit === unitName)) {
+			return true;
+		} 
+		return false;
+	});
 }
 
 function getUpgradeId(upgradeIdArray, index) {
