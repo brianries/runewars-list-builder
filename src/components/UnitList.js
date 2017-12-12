@@ -25,6 +25,7 @@ class UnitList extends Component {
 				unitId={element.unitId} 								
 				formationId={element.formationId}
 				upgradeIds={element.upgradeIds}
+				cost={element.cost}
 				onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, false)} 			
 				onFormationChange={this.handleFormationChange} 
 				onUpgradeChange={this.handleUpgradeChange} 
@@ -44,6 +45,7 @@ class UnitList extends Component {
 					unitId={null}
 					formationId={null}
 					upgradeIds={null}
+					cost={0}
 					onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, true)} 			
 					isNewOption={true}
 				/>	    
@@ -59,7 +61,7 @@ class UnitList extends Component {
 
 	handleFormationChange(cardIndex, value) {
 		// Dispatch a formation action to the Redux store
-		this.props.dispatch(formationAction.setFormation(cardIndex, value));
+		this.props.dispatch(formationAction.setFormation(cardIndex, this.props.unitList[cardIndex].unitId, value));
 	}
 
 	handleUpgradeChange(cardIndex, upgradeIndex, value) {

@@ -52,7 +52,7 @@ class UnitCard extends Component {
 					<div className="unitCostContainer">			
 						<Paper className="paper">
 							<div className="costText">
-								0
+								<h1>{this.props.cost}</h1>
 							</div>
 						</Paper>
 					</div>	
@@ -157,6 +157,7 @@ UnitCard.propTypes = {
 	unitReferenceMap: PropTypes.object.isRequired,
 	unitId: PropTypes.number,
 	formationId: PropTypes.number,
+	cost: PropTypes.number,
 	upgradeIds: PropTypes.arrayOf(PropTypes.number),
 	onUnitChange: PropTypes.func.isRequired,
 	onFormationChange: PropTypes.func,

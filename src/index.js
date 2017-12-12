@@ -13,8 +13,8 @@ import Layout from './components/Layout';
 
 import registerServiceWorker from './registerServiceWorker';
 
-var unitReferenceMap = require("./data/unitData.json");
-var upgradeReferenceMap = require("./data/upgradeData.json");
+import unitReferenceMap from './data/unitData';
+import upgradeReferenceMap from './data/upgradeData';
 
 ReactDOM.render(
     <Provider store={store}>

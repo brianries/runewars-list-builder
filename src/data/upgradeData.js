@@ -1,3 +1,4 @@
+export default
 {
     "upgrades": [
         {
@@ -379,7 +380,7 @@
             "cost": 6
         },
         {
-            "id": 120,
+            "id": 27,
             "name": "Front Line Rune Golem",
             "upgrade_type" : "Heavy",
             "faction" : "Daqan",
@@ -393,7 +394,7 @@
             "cost": 7
         },
         {
-            "id": 130,
+            "id": 28,
             "name": "Sweeping Strikes",
             "upgrade_type" : "Unique",
             "faction" : "Daqan",
@@ -407,7 +408,7 @@
             "cost": 5
         },
         {
-            "id": 140,
+            "id": 29,
             "name": "Wraith Step",
             "upgrade_type" : "Unique",
             "faction" : "Daqan",

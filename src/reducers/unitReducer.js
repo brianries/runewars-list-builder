@@ -1,3 +1,6 @@
+import unitReferenceMap from '../data/unitData';
+import upgradeReferenceMap from '../data/upgradeData';
+
 export default function reducer(state=[], action) {
     var copiedList = copyList(state);
     switch(action.type) {
@@ -9,15 +12,18 @@ export default function reducer(state=[], action) {
             else {
                 copiedList[action.payload.cardIndex] = {unitId: action.payload.unitId, formationId: 0};
             }
+            recalculateUnitCost(copiedList[action.payload.cardIndex]);
             return copiedList;
         }       
         case "SET_FORMATION": {
             copiedList[action.payload.cardIndex].formationId = action.payload.formationId;
+            recalculateUnitCost(copiedList[action.payload.cardIndex]);            
             return copiedList;
         }
         //  payload: {cardIndex, upgradeIndex, upgradeId}
         case 'SET_UPGRADE': {
-            copiedList[action.payload.cardIndex].upgradeIds = copyArraySetItem(copiedList[action.payload.cardIndex].upgradeIds, action.payload.upgradeIndex, action.payload.upgradeId);
+            copiedList[action.payload.cardIndex].upgradeIds = copyArrayAndSetItem(copiedList[action.payload.cardIndex].upgradeIds, action.payload.upgradeIndex, action.payload.upgradeId);
+            recalculateUnitCost(copiedList[action.payload.cardIndex]);          
             return copiedList;
         }
         case 'REMOVE_UNIT': {
@@ -47,7 +53,7 @@ function copyUnit(unit) {
     return clonedUnit;
 }
 
-function copyArraySetItem(array, index, item) {
+function copyArrayAndSetItem(array, index, item) {
     var arrLength = typeof array === 'undefined' ? 0 : array.length;
     var newArray = new Array(Math.max(arrLength, index+1)).fill(null);
     for (var i = 0; i < arrLength; i++) {
@@ -55,4 +61,15 @@ function copyArraySetItem(array, index, item) {
     }
     newArray[index] = item;
     return newArray;
+}
+
+function recalculateUnitCost(unitList) {
+    var totalCost = 0;
+    if (typeof unitList.upgradeIds !== 'undefined') {
+        unitList.upgradeIds.forEach(element => {
+            totalCost += upgradeReferenceMap.upgrades[element].cost;
+        });
+    }
+    totalCost += unitReferenceMap.units[unitList.unitId].formations[unitList.formationId].cost;   
+    unitList.cost = totalCost;    
 }
