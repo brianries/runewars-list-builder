@@ -12,11 +12,13 @@ export default function reducer(state=[], action) {
             else {
                 copiedList[action.payload.cardIndex] = {unitId: action.payload.unitId, formationId: 0};
             }
+            trimUpgradeList(copiedList[action.payload.cardIndex]);
             recalculateUnitCost(copiedList[action.payload.cardIndex]);
             return copiedList;
         }       
         case "SET_FORMATION": {
             copiedList[action.payload.cardIndex].formationId = action.payload.formationId;
+            trimUpgradeList(copiedList[action.payload.cardIndex]);
             recalculateUnitCost(copiedList[action.payload.cardIndex]);            
             return copiedList;
         }
@@ -63,11 +65,23 @@ function copyArrayAndSetItem(array, index, item) {
     return newArray;
 }
 
+function trimUpgradeList(unitList) {
+    if (typeof unitList.upgradeIds !== 'undefined') {
+        var currentUpgradeCount = unitList.upgradeIds.length;
+        var expectedUpgradeCount = unitReferenceMap.units[unitList.unitId].formations[unitList.formationId].upgradeTypes.length;
+        if (currentUpgradeCount > expectedUpgradeCount) {            
+            unitList.upgradeIds = unitList.upgradeIds.slice(0, expectedUpgradeCount);
+        }
+    }
+}
+
 function recalculateUnitCost(unitList) {
     var totalCost = 0;
     if (typeof unitList.upgradeIds !== 'undefined') {
         unitList.upgradeIds.forEach(element => {
-            totalCost += upgradeReferenceMap.upgrades[element].cost;
+            if (element !== null) {
+                totalCost += upgradeReferenceMap.upgrades[element].cost;
+            }
         });
     }
     totalCost += unitReferenceMap.units[unitList.unitId].formations[unitList.formationId].cost;   
