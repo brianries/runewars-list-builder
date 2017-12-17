@@ -16,6 +16,9 @@ export default createStore(reducer,  initialState, applyMiddleware(promise(), th
 /*-------------------------------------------------------------------------------------------------
 Store Layout
 {
+    faction: "Daqan",
+    listName: "Unnamed",
+    listCost: 200,
     unitList: [
         {
             unitId: 1,
@@ -25,5 +28,5 @@ Store Layout
         }
     ],
     cardDisplayed: { type: "unit", id: "0"}
-
+}
 -------------------------------------------------------------------------------------------------*/

@@ -7,7 +7,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 
+import ContentClear from 'material-ui/svg-icons/content/clear'
+
 import './UnitCard.css';
+
 
 
 class UnitCard extends Component {	
@@ -18,6 +21,7 @@ class UnitCard extends Component {
 		this.handleUpgradeChange = this.handleUpgradeChange.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
+		this.upgradeSelectionRenderer = this.upgradeSelectionRenderer.bind(this);
 	}
 	
 	render() {
@@ -117,7 +121,9 @@ class UnitCard extends Component {
 						className="selectUpgrade" 
 						value={getUpgradeId(this.props.upgradeIds, index)}
 						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
-						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}>
+						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}
+					//	selectionRenderer={this.upgradeSelectionRenderer}
+					>
 						{this.getUpgradeItems(upgradeType, unit.unit_type, unit.faction, unit.name)}
 					</SelectField>
 				);
@@ -130,6 +136,10 @@ class UnitCard extends Component {
 		return this.props.upgradeReferenceMap.upgrades.filter(getUpgradeFilter(upgradeType, unitType, faction, unitName)).map((upgrade) => (
 			<MenuItem key={"upgrade"+upgrade.id} value={upgrade.id} primaryText={upgrade.name + " ("+ upgrade.cost + ")"}/>
 		));
+	}
+
+	upgradeSelectionRenderer(value, menuItem) {
+		return <div> {this.props.upgradeReferenceMap.upgrades[value].name} <ContentClear onClick={()=>console.log("Cleared item!")}/> </div>
 	}
 }
 

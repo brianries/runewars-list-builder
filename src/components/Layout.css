@@ -27,3 +27,12 @@
 	width: 100%;
 	margin: 20;
 }
+
+.toolBarTitle {
+	color: white;
+}
+
+.toolBarDaqan {
+	color: 'white' !important;
+	background-color: #1f2579 !important;
+}

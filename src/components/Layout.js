@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
+import ToolBar from 'material-ui/Toolbar';
+import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup';
+import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle';
+import ToolbarSeparator from 'material-ui/Toolbar/ToolbarSeparator';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField'
+import MenuItem from 'material-ui/MenuItem';
 import UnitList from './UnitList';
 
 import {connect} from 'react-redux'
@@ -10,6 +16,7 @@ import './Layout.css';
 
 // Needed for onTouchTap (http://stackoverflow.com/a/34015469/988941)
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import { DropDownMenu } from 'material-ui';
 injectTapEventPlugin()
 
 
@@ -23,12 +30,27 @@ var dialMap = importAllImages(require.context('../dials', false, /\.png/));
 
 document.body.style.backgroundColor = "gray";
 
+		 
 class Layout extends Component {
-	
 	render() {
 		return (		
-			<div>	
-				<AppBar title="Runewars List Builder v0.2" /> 		 
+			<div>				
+				<ToolBar className="toolBarDaqan">
+					<ToolbarGroup>
+						<DropDownMenu style={{fontSize: '200%', color: 'white'}} value={0}>
+							<MenuItem key={"Daqan"} value={0} primaryText={"Daqan"}/>    
+							<MenuItem key={"Waiqar"} value={1} primaryText={"Waiqar"}/>    
+							<MenuItem key={"Latari"} value={2} primaryText={"Latari"}/>    
+							<MenuItem key={"Uthuk"} value={3} primaryText={"Uthuk"}/>    
+						</DropDownMenu>
+					</ToolbarGroup>				
+					<ToolbarGroup>
+						<ToolbarTitle text="List Name:" style={{color: 'white'}}/>
+					</ToolbarGroup>	
+						<ToolbarTitle text="List cost:" style={{color: 'white'}}/>
+					<ToolbarGroup>
+					</ToolbarGroup>	
+				</ToolBar>
 				<div className="mainPanel">
 					<div className="unitContainer">
 						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={this.props.unitReferenceMap} upgradeReferenceMap={this.props.upgradeReferenceMap}/>   
@@ -37,11 +59,11 @@ class Layout extends Component {
 						<Paper className="paper" style={{backgroundColor: 'white', color: 'black', padding: 20}}>
 							Unit Title
 							<br/>
-						{/*	<img src={dialMap[unitReferenceMap.units[0].dial_image]}/> */}
+							{/*	<img src={dialMap[unitReferenceMap.units[0].dial_image]}/> */}
 							Description
 						</Paper>
 					</div>						
-				</div>			
+				</div>
 			</div>
 		)
 	}	
