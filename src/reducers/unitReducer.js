@@ -2,55 +2,58 @@ import unitReferenceMap from '../data/unitData';
 import upgradeReferenceMap from '../data/upgradeData';
 
 export default function reducer(state=[], action) {
-    var copiedList = copyList(state);
+    var copiedState = copyState(state);
     switch(action.type) {
         case "SET_UNIT": {
             // Splice with 0 does no deletes, and inserts
             if (action.payload.isNew === true) {
-                copiedList.splice(action.payload.cardIndex, 0, {unitId: action.payload.unitId, formationId: 0}); // set the first formation by default
+                copiedState.units.splice(action.payload.cardIndex, 0, {unitId: action.payload.unitId, formationId: 0}); // set the first formation by default
             }
             else {
-                copiedList[action.payload.cardIndex] = {unitId: action.payload.unitId, formationId: 0};
+                copiedState.units[action.payload.cardIndex] = {unitId: action.payload.unitId, formationId: 0};
             }
-            trimUpgradeList(copiedList[action.payload.cardIndex]);
-            recalculateUnitCost(copiedList[action.payload.cardIndex]);
-            return copiedList;
+            trimUpgradeList(copiedState.units[action.payload.cardIndex]);
+            recalculateUnitCost(copiedState.units[action.payload.cardIndex]);
+            break;
         }       
         case "SET_FORMATION": {
-            copiedList[action.payload.cardIndex].formationId = action.payload.formationId;
-            trimUpgradeList(copiedList[action.payload.cardIndex]);
-            recalculateUnitCost(copiedList[action.payload.cardIndex]);            
-            return copiedList;
+            copiedState.units[action.payload.cardIndex].formationId = action.payload.formationId;
+            trimUpgradeList(copiedState.units[action.payload.cardIndex]);
+            recalculateUnitCost(copiedState.units[action.payload.cardIndex]);            
+            break;
         }
         //  payload: {cardIndex, upgradeIndex, upgradeId}
         case 'SET_UPGRADE': {
-            copiedList[action.payload.cardIndex].upgradeIds = copyArrayAndSetItem(copiedList[action.payload.cardIndex].upgradeIds, action.payload.upgradeIndex, action.payload.upgradeId);
-            recalculateUnitCost(copiedList[action.payload.cardIndex]);          
-            return copiedList;
+            copiedState.units[action.payload.cardIndex].upgradeIds = copyArrayAndSetItem(copiedState.units[action.payload.cardIndex].upgradeIds, action.payload.upgradeIndex, action.payload.upgradeId);
+            recalculateUnitCost(copiedState.units[action.payload.cardIndex]);          
+            break;
         }
         case 'REMOVE_UNIT': {
-            copiedList.splice(action.payload.cardIndex, 1);
-            return copiedList;
+            copiedState.units.splice(action.payload.cardIndex, 1);
+            break;
         }
         case 'COPY_UNIT': {
-            var copiedUnit = copyUnit(copiedList[action.payload.cardIndex]);
-            copiedList.push(copiedUnit);
-            return copiedList;
+            var copiedUnit = copyUnit(copiedState.units[action.payload.cardIndex]);
+            copiedState.units.push(copiedUnit);
+            break;
         }
         default: {
             return state;
         }
     }    
+
+    recalculateTotalCost(copiedState);
+    return copiedState;
 }    
 
-function copyList(unitList) {
-    // unitList has very simple data types -- so stringify'ing for JSON works here to clone properly
-    var clonedArray = JSON.parse(JSON.stringify(unitList));
-    return clonedArray;
+function copyState(state) {
+    // the unitlist state has very simple data types -- so stringify'ing for JSON works here to clone properly
+    var clonedState = JSON.parse(JSON.stringify(state));
+    return clonedState;
 }
 
 function copyUnit(unit) {
-    // unit has very simple data types -- so stringify'ing for JSON works here to clone properly
+    // a unit has very simple data types -- so stringify'ing for JSON works here to clone properly
     var clonedUnit = JSON.parse(JSON.stringify(unit));
     return clonedUnit;
 }
@@ -86,4 +89,12 @@ function recalculateUnitCost(unitList) {
     }
     totalCost += unitReferenceMap.units[unitList.unitId].formations[unitList.formationId].cost;   
     unitList.cost = totalCost;    
+}
+
+function recalculateTotalCost(state) {
+    var newCost = 0;
+    for (var i = 0; i < state.units.length; i++) {
+        newCost += state.units[i].cost;
+    }
+    state.listCost = newCost;
 }

@@ -45,9 +45,9 @@ class Layout extends Component {
 						</DropDownMenu>
 					</ToolbarGroup>				
 					<ToolbarGroup>
-						<ToolbarTitle text="List Name:" style={{color: 'white'}}/>
+						<ToolbarTitle text={"List Name: "+this.props.listName} style={{color: 'white'}}/>
 					</ToolbarGroup>	
-						<ToolbarTitle text="List cost:" style={{color: 'white'}}/>
+						<ToolbarTitle text={"List cost: "+this.props.listCost} style={{color: 'white'}}/>
 					<ToolbarGroup>
 					</ToolbarGroup>	
 				</ToolBar>
@@ -71,8 +71,9 @@ class Layout extends Component {
 
 function mapStateToProps(state) {
 	return {
-		unitList: state.unitList,
-		store: state
+		listName: state.listName,
+		listCost: state.unitList.listCost,
+		unitList: state.unitList.units,
 	};
 }
 
@@ -83,6 +84,8 @@ function mapDispatchToPros(dispatch) {
 }
 
 Layout.propTypes = {
+	listName: PropTypes.string,
+	listCost: PropTypes.number,
 	unitList: PropTypes.arrayOf(PropTypes.object),
 	dispatch: PropTypes.func,
 	unitReferenceMap: PropTypes.object,
