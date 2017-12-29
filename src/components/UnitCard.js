@@ -6,6 +6,7 @@ import SelectField from 'material-ui/SelectField'
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
+import {Grid, Row, Col} from 'react-flexbox-grid';
 
 import ContentClear from 'material-ui/svg-icons/content/clear'
 
@@ -27,49 +28,58 @@ class UnitCard extends Component {
 	render() {
 		if (this.props.isNewOption) {
 			return (
-				<div>
 				<Card>
-					<div className="topContainer">
-						<div className="unitSelectContainer">
-							<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitId} onChange={this.handleUnitChange}>
+				<Grid fluid>
+					<Row>
+						<Col xs={12}>
+							<SelectField hintText="Select Unit ..." value={this.props.unitId} onChange={this.handleUnitChange}>
 								{this.getUnitMenuItems()}
 							</SelectField>
-						</div>
-					</div>	
+						</Col>
+					</Row>
+				</Grid>	
 				</Card>
-				</div>
 			);
 		}
 		else {
 			return (
-				<div>
 				<Card>
-				<div className="topContainer">
-					<div className="unitSelectContainer">
-						<SelectField hintText="Select Unit ..." className="selectUnit" value={this.props.unitId} onChange={this.handleUnitChange}>
-							{this.getUnitMenuItems()}
-						</SelectField>
-						<SelectField hintText="Select Formation ..." className="selectUnit"	value={this.props.formationId} onChange={this.handleFormationChange}>
-							{this.getFormationItems()}
-						</SelectField>
-					</div>
-					<div className="unitCostContainer">			
-						<Paper className="paper">
-							<div className="costText">
-								<h1>{this.props.cost}</h1>
-							</div>
-						</Paper>
-					</div>	
-					<div className="unitUpgradeContainer">
-						{this.getUpgradeSelectFields()}
-					</div>
-					<div className="buttonContainer">
-						<RaisedButton label="Remove" secondary={true} className="removeButton" onClick={this.handleRemove}/>
-						<RaisedButton label="Copy" primary={true} className="copyButton" onClick={this.handleCopy}/>
-					</div>
-				</div>
+				<Grid fluid>
+					<Row>
+						<Col xs={3}>
+							<Row>
+								<SelectField hintText="Select Unit ..."  value={this.props.unitId} onChange={this.handleUnitChange}>
+									{this.getUnitMenuItems()}
+								</SelectField>
+							</Row>
+							<Row>
+								<SelectField hintText="Select Formation ..." value={this.props.formationId} onChange={this.handleFormationChange}>
+									{this.getFormationItems()}
+								</SelectField>
+							</Row>	
+						</Col>
+						<Col xs={1}>
+							<Paper >
+								<div className="costText">
+									<h1>{this.props.cost}</h1>
+								</div>
+							</Paper>
+						</Col>
+						<Col xs={3}>
+							{this.getUpgradeSelectFields(true)}
+						</Col>
+						<Col xs={3}>
+							{this.getUpgradeSelectFields(false)}
+						</Col>
+						<Col xs={1}>
+							<RaisedButton label="Remove" secondary={true} onClick={this.handleRemove}/>
+						</Col>
+						<Col xs={1}>
+							<RaisedButton label="Copy" primary={true} onClick={this.handleCopy}/>
+						</Col>
+					</Row>	
+				</Grid>	
 				</Card>
-				</div>
 			);		
 		}
 	}
@@ -106,7 +116,13 @@ class UnitCard extends Component {
 		));
 	}
 
-	getUpgradeSelectFields() {
+	wrapUpgradesInGrid(colNum, selectFields) {
+		for (var i = 0; i < selectFields.length; i++) {
+
+		}
+	}
+
+	getUpgradeSelectFields(selectLeft) {
 		var selectFieldArray = [];
 		if (typeof this.props.formationId !== 'undefined') {
 			var unit = this.props.unitReferenceMap.units[this.props.unitId];
@@ -114,28 +130,31 @@ class UnitCard extends Component {
 			for (var i = 0; i < upgradeTypeArray.length; i++) {
 				var upgradeType = upgradeTypeArray[i];
 				const index = i;
-				selectFieldArray.push(
-					<SelectField 
-					    key={"upgradeSelectBox"+i}
-						hintText={"Select " + upgradeType + " ..."}
-						className="selectUpgrade" 
-						value={getUpgradeId(this.props.upgradeIds, index)}
-						onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
-						onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}
-					//	selectionRenderer={this.upgradeSelectionRenderer}
-					>
-						{this.getUpgradeItems(upgradeType, unit.unit_type, unit.faction, unit.name)}
-					</SelectField>
-				);
+				if ((i % 2 === 1 && !selectLeft) || (i % 2 === 0 && selectLeft)) {
+					selectFieldArray.push(
+						<SelectField 
+							key={"upgradeSelectBox"+i}
+							hintText={"Select " + upgradeType + " ..."}
+							//className="selectUpgrade" 
+							value={getUpgradeId(this.props.upgradeIds, index)}
+							onMouseOver={()=>console.log("Mouse over selected upgrade " + upgradeType)} 
+							onChange={(event, key, value) => this.handleUpgradeChange(event, key, value, index)}
+						>
+							{this.getUpgradeItems(upgradeType, unit.unit_type, unit.faction, unit.name)}
+						</SelectField>
+					);
+				}
 			}
 		}
 		return selectFieldArray;
 	}
 	
 	getUpgradeItems(upgradeType, unitType, faction, unitName) {
-		return this.props.upgradeReferenceMap.upgrades.filter(getUpgradeFilter(upgradeType, unitType, faction, unitName)).map((upgrade) => (
+		var result = this.props.upgradeReferenceMap.upgrades.filter(getUpgradeFilter(upgradeType, unitType, faction, unitName)).map((upgrade) => (
 			<MenuItem key={"upgrade"+upgrade.id} value={upgrade.id} primaryText={upgrade.name + " ("+ upgrade.cost + ")"}/>
 		));
+		result.unshift(<MenuItem value={null} primaryText=""/>)
+		return result;
 	}
 
 	upgradeSelectionRenderer(value, menuItem) {
