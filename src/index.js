@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createMuiTheme } from 'material-ui/styles';
+import red from 'material-ui/colors/red';
+import blue from 'material-ui/colors/blue';
 
 import './index.css';
 
@@ -16,9 +17,18 @@ import registerServiceWorker from './registerServiceWorker';
 import unitReferenceMap from './data/unitData';
 import upgradeReferenceMap from './data/upgradeData';
 
+const theme = createMuiTheme({
+	palette: {
+		type: 'light',
+    },
+	status: {
+		danger: 'orange',
+	},
+});
+
 ReactDOM.render(
     <Provider store={store}>
-		<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+		<MuiThemeProvider theme={theme}>
 			<div>
 				<Layout unitReferenceMap={unitReferenceMap} upgradeReferenceMap={upgradeReferenceMap}/>
 			</div>
