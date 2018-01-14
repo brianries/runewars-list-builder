@@ -19,7 +19,7 @@ import upgradeReferenceMap from './data/upgradeData';
 
 const theme = createMuiTheme({
 	palette: {
-		type: 'light',
+		type: 'dark',
     },
 	status: {
 		danger: 'orange',
