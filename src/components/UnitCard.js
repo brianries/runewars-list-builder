@@ -21,13 +21,12 @@ import Typography from 'material-ui/Typography/Typography';
 
 const styles = theme => ({
 	root: {
-		//flexGrow: 1,
+		flexGrow: 1,
 	},
 	container: {
 	  display: 'flex',
 	  flexWrap: 'wrap',
 	},
-
 	formControl: {
 	  margin: theme.spacing.unit,
 	  minWidth: 200,
@@ -77,6 +76,7 @@ class UnitCard extends Component {
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
 		this.handleRemoveUpgrade = this.handleRemoveUpgrade.bind(this);
+		this.handleMouseOverUnit = this.handleMouseOverUnit.bind(this);
 	}
 	
 	render() {
@@ -107,7 +107,7 @@ class UnitCard extends Component {
 							<Grid item xs={12}>
 								<FormControl className={classes.formControl}>
 									<InputLabel htmlFor="unit-simple" hidden={this.props.unitId !== null ? true : false} >Select Unit ...</InputLabel>
-									<Select value={this.props.unitId} onMouseOver={()=>console.log("Mouse over unit ")} onChange={this.handleUnitChange}>
+									<Select value={this.props.unitId} onMouseOver={(event) => this.handleMouseOverUnit(this.props.unitId, event)} onChange={this.handleUnitChange}>
 										{this.getUnitMenuItems()}
 									</Select>
 								</FormControl>
@@ -172,6 +172,10 @@ class UnitCard extends Component {
 	handleRemoveUpgrade(upgradeIndex, event) {
 		this.props.onUpgradeChange(this.props.cardIndex, upgradeIndex, null);
 	}
+
+	handleMouseOverUnit(unitId, event) {
+		this.props.onMouseOverUnit(unitId);
+	}
 	
 	getUnitMenuItems() {
 		return this.props.unitReferenceMap.units.map((unit) => (
@@ -185,14 +189,6 @@ class UnitCard extends Component {
 		));
 	}
 
-	wrapUpgradesInGrid(colNum, selectFields) {
-		for (var i = 0; i < selectFields.length; i++) {
-
-		}
-	}
-
-	
-	
 	
 	getUpgradeSelectFields(selectLeft) {
 		const { classes } = this.props;

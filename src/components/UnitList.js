@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as mouseOverAction from "../actions/mouseOverActions";
 import * as unitAction from "../actions/unitActions";
 import * as formationAction from "../actions/formationActions";
 import * as upgradeAction from "../actions/upgradeActions";
@@ -12,6 +13,7 @@ class UnitList extends Component {
 		this.handleUpgradeChange = this.handleUpgradeChange.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
 		this.handleCopy = this.handleCopy.bind(this);
+		this.handleMouseOverUnit = this.handleMouseOverUnit.bind(this);
 	}
 	
 	render() {	
@@ -31,6 +33,7 @@ class UnitList extends Component {
 				onUpgradeChange={this.handleUpgradeChange} 
 				onRemove={this.handleRemove} 
 				onCopy={this.handleCopy}
+				onMouseOverUnit={this.handleMouseOverUnit}
 			/>	    
 		));
 		
@@ -79,6 +82,12 @@ class UnitList extends Component {
 	handleCopy(cardIndex) {
 		if (cardIndex !== this.props.unitList.length) {
 			this.props.dispatch(unitAction.copyUnit(cardIndex));
+		}
+	}
+
+	handleMouseOverUnit(unitId) {
+		if (unitId >= 0) {
+			this.props.dispatch(mouseOverAction.mouseOverUnit(unitId));
 		}
 	}
 }

@@ -7,6 +7,8 @@ import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField'
 import UnitList from './UnitList';
+import { withStyles } from 'material-ui/styles';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
 
 import {connect} from 'react-redux'
 import './Layout.css';
@@ -27,9 +29,20 @@ var dialMap = importAllImages(require.context('../dials', false, /\.png/));
 
 document.body.style.backgroundColor = "gray";
 
+const styles = theme => ({
+	card: {
+	  maxWidth: 400,
+	},
+	media: {
+	  width: 400,
+	  height: 200,
+	},
+  });
+
 		 
 class Layout extends Component {
 	render() {
+		const { classes } = this.props;
 		return (		
 			<div>
 				<AppBar position="static">				
@@ -55,12 +68,18 @@ class Layout extends Component {
 						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={this.props.unitReferenceMap} upgradeReferenceMap={this.props.upgradeReferenceMap}/>   
 					</div>
 					<div className="descriptionContainer">
-						<Paper className="paper" style={{backgroundColor: 'white', color: 'black', padding: 20}}>
-							Unit Title
-							<br/>
-							{/*	<img src={dialMap[unitReferenceMap.units[0].dial_image]}/> */}
-							Description
-						</Paper>
+					    <Card className={classes.card}>						
+							<CardContent>
+								<Typography type="headline" component="h2">				
+					   				{getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+								</Typography>
+							</CardContent>
+							<CardMedia 
+								className={classes.media}
+								image={dialMap[this.props.unitReferenceMap.units[0].dial_image]}
+								title="Aliana of SummerSong"
+							/>
+						</Card>
 					</div>						
 				</div>
 			</div>
@@ -68,11 +87,24 @@ class Layout extends Component {
 	}	
 }
 
+function getCardDisplayedTitle(cardDisplayed, unitReferenceMap, upgradeReferenceMap) {
+	if (typeof cardDisplayed !== 'undefined') {
+		if (cardDisplayed.type === 'unit') {
+			return unitReferenceMap.units[cardDisplayed.id].name;
+		}
+		else if (cardDisplayed.type === 'upgrade') {
+			return upgradeReferenceMap.upgrades[cardDisplayed.id].name;
+		}
+	}
+	return "Nothing selected"
+}
+
 function mapStateToProps(state) {
 	return {
 		listName: state.listName,
 		listCost: state.unitList.listCost,
 		unitList: state.unitList.units,
+		cardDisplayed: state.cardDisplayed
 	};
 }
 
@@ -91,4 +123,4 @@ Layout.propTypes = {
 	upgradeReferenceMap: PropTypes.object
 }
 
-export default connect(mapStateToProps)(Layout);
+export default withStyles(styles)(connect(mapStateToProps)(Layout));
