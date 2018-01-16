@@ -9,9 +9,10 @@ import TextField from 'material-ui/TextField'
 import UnitList from './UnitList';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardMedia } from 'material-ui/Card';
+import Grid from 'material-ui/Grid';
 
 import {connect} from 'react-redux'
-import './Layout.css';
+//import './Layout.css';
 
 // Needed for onTouchTap (http://stackoverflow.com/a/34015469/988941)
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -30,8 +31,22 @@ var dialMap = importAllImages(require.context('../dials', false, /\.png/));
 document.body.style.backgroundColor = "gray";
 
 const styles = theme => ({
+	root: {
+		flexGrow: 1,
+		justify: 'flex-start',
+		spacing: 0,
+	},
 	card: {
-	  maxWidth: 400,
+	 // maxWidth: 400,
+	},
+	toolBar: {
+		color: 'white',
+		backgroundColor: '#1f2579'
+	},
+	appBarText: {
+		color: 'white',
+		marginLeft: 20,
+		marginRight: 20,
 	},
 	media: {
 	  width: 400,
@@ -46,32 +61,33 @@ class Layout extends Component {
 		return (		
 			<div>
 				<AppBar position="static">				
-					<ToolBar className="toolBarDaqan">
-					   {/*
+					<ToolBar className={classes.toolBar}>
+					{/*
 						<Menu style={{fontSize: '200%', color: 'white'}} value={0}>
 							<MenuItem key={"Daqan"}  value={0} primaryText={"Daqan"}/>    
 							<MenuItem key={"Waiqar"} value={1} primaryText={"Waiqar"}/>    
 							<MenuItem key={"Latari"} value={2} primaryText={"Latari"}/>    
 							<MenuItem key={"Uthuk"}  value={3} primaryText={"Uthuk"}/>    
 						</Menu>					
-					   */}
-						<Typography type="title" color="inherit" style={{color: 'white'}}>
+					*/}
+						<Typography type="title" className={classes.appBarText}>
 							List Name: {this.props.listName} 
 						</Typography>	
-						<Typography type="title" color="inherit" style={{color: 'white'}}>
+						<Typography type="title" className={classes.appBarText}>
 							List cost: {this.props.listCost}
 						</Typography>	
 					</ToolBar>
 				</AppBar>
-				<div className="mainPanel">
-					<div className="unitContainer">
+				
+				<Grid container className={classes.root}>
+					<Grid item xs={8}>
 						<UnitList unitList={this.props.unitList} dispatch={this.props.dispatch} unitReferenceMap={this.props.unitReferenceMap} upgradeReferenceMap={this.props.upgradeReferenceMap}/>   
-					</div>
-					<div className="descriptionContainer">
-					    <Card className={classes.card}>						
+					</Grid>
+					<Grid item xs={4}>
+						<Card className={classes.card}>						
 							<CardContent>
 								<Typography type="headline" component="h2">				
-					   				{getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+									{getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
 								</Typography>
 							</CardContent>
 							<CardMedia 
@@ -80,8 +96,8 @@ class Layout extends Component {
 								title={getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
 							/>
 						</Card>
-					</div>						
-				</div>
+					</Grid>
+				</Grid>
 			</div>
 		)
 	}	
@@ -115,12 +131,6 @@ function mapStateToProps(state) {
 		unitList: state.unitList.units,
 		cardDisplayed: state.cardDisplayed
 	};
-}
-
-function mapDispatchToPros(dispatch) {
-	return {
-
-	}
 }
 
 Layout.propTypes = {

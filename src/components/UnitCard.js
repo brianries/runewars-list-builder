@@ -104,7 +104,7 @@ class UnitCard extends Component {
 				<Card>
 				<Grid container className={classes.root} justify="flex-start">
 					<Grid item xs={3} className={classes.gridItem0}>
-					   	<Grid container xs={12} className={classes.gridItem2} direction="column" alignContent="stretch">
+					   	<Grid container className={classes.gridItem2} direction="column" alignContent="stretch">
 							<Grid item xs={12}>
 								<FormControl className={classes.formControl}>
 									<InputLabel htmlFor="unit-simple" hidden={this.props.unitId !== null ? true : false} >Select Unit ...</InputLabel>
