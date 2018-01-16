@@ -51,6 +51,7 @@ class UnitList extends Component {
 					cost={0}
 					onUnitChange={(cardIndex, value) => this.handleUnitChange(cardIndex, value, true)} 			
 					isNewOption={true}
+					onMouseOverUnit={this.handleMouseOverUnit}
 				/>	    
 			</div>
 		)
@@ -86,7 +87,7 @@ class UnitList extends Component {
 	}
 
 	handleMouseOverUnit(unitId) {
-		if (unitId >= 0) {
+		if (unitId !== null && unitId >= 0) {
 			this.props.dispatch(mouseOverAction.mouseOverUnit(unitId));
 		}
 	}

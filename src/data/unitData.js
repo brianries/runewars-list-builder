@@ -48,7 +48,7 @@ export default
             "special_abilities": [1],
             "enhancements": null,
             "deployment_ability": null,
-            "dial_image": "spearman.png",
+            "dial_image": "spearmen.png",
             "formations": [
                 { "id": 0, "size": "2x1", "cost": 18, "upgradeTypes": ["Equipment", "Music"] },
                 { "id": 1, "size": "2x2", "cost": 30, "upgradeTypes": ["Equipment", "Music", "Champion"] },

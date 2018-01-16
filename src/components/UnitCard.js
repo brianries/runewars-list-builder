@@ -77,6 +77,7 @@ class UnitCard extends Component {
 		this.handleCopy = this.handleCopy.bind(this);
 		this.handleRemoveUpgrade = this.handleRemoveUpgrade.bind(this);
 		this.handleMouseOverUnit = this.handleMouseOverUnit.bind(this);
+		this.getUnitMenuItems = this.getUnitMenuItems.bind(this);
 	}
 	
 	render() {
@@ -89,7 +90,7 @@ class UnitCard extends Component {
 					<Grid item xs={3}>				
 						<FormControl className={classes.formControl}>
 							<InputLabel htmlFor="unit-simple">Select Unit ...</InputLabel>							
-							<Select value={this.props.unitId} onChange={this.handleUnitChange}>
+							<Select value={this.props.unitId} onMouseOver={(event) => this.handleMouseOverUnit(this.props.unitId, event)} onChange={this.handleUnitChange}>
 								{this.getUnitMenuItems()}
 							</Select>
 						</FormControl>	
@@ -115,7 +116,7 @@ class UnitCard extends Component {
 							<Grid item xs={12}>
 								<FormControl className={classes.formControl}>
 									<InputLabel htmlFor="formation-simple" hidden={this.props.formationId !== null ? true : false} >Select Formation ...</InputLabel>
-									<Select value={this.props.formationId} onChange={this.handleFormationChange} input={<Input name="formation" id="formation-simple"/>} >
+									<Select value={this.props.formationId} onMouseOver={(event) => this.handleMouseOverUnit(this.props.unitId, event)} onChange={this.handleFormationChange}>
 										{this.getFormationItems()}
 									</Select>
 								</FormControl>
@@ -179,7 +180,7 @@ class UnitCard extends Component {
 	
 	getUnitMenuItems() {
 		return this.props.unitReferenceMap.units.map((unit) => (
-			<MenuItem value={unit.id} onMouseOver={()=>console.log("Mouseover unit id = " + unit.id)}>{unit.name}</MenuItem>    
+			<MenuItem value={unit.id} onMouseOver={(event) => this.handleMouseOverUnit(unit.id, event)}>{unit.name}</MenuItem>    
 		));
 	}
 	

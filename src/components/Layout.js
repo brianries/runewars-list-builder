@@ -76,8 +76,8 @@ class Layout extends Component {
 							</CardContent>
 							<CardMedia 
 								className={classes.media}
-								image={dialMap[this.props.unitReferenceMap.units[0].dial_image]}
-								title="Aliana of SummerSong"
+								image={getCardDisplayedDial(this.props.cardDisplayed, this.props.unitReferenceMap)}
+								title={getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
 							/>
 						</Card>
 					</div>						
@@ -89,14 +89,23 @@ class Layout extends Component {
 
 function getCardDisplayedTitle(cardDisplayed, unitReferenceMap, upgradeReferenceMap) {
 	if (typeof cardDisplayed !== 'undefined') {
-		if (cardDisplayed.type === 'unit') {
+		if (cardDisplayed.type === 'unit' && cardDisplayed.id !== null) {
 			return unitReferenceMap.units[cardDisplayed.id].name;
 		}
-		else if (cardDisplayed.type === 'upgrade') {
+		else if (cardDisplayed.type === 'upgrade' && cardDisplayed.id !== null) {
 			return upgradeReferenceMap.upgrades[cardDisplayed.id].name;
 		}
 	}
 	return "Nothing selected"
+}
+
+function getCardDisplayedDial(cardDisplayed, unitReferenceMap) {
+	if (typeof cardDisplayed !== 'undefined') {
+		if (cardDisplayed.type === 'unit' && cardDisplayed.id !== null) {
+			return dialMap[unitReferenceMap.units[cardDisplayed.id].dial_image]
+		}
+	}
+	return null;
 }
 
 function mapStateToProps(state) {

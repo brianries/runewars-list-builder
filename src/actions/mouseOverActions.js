@@ -11,4 +11,3 @@ export function mouseOverUpgrade(upgradeId) {
         payload: {upgradeId}
     }
 }
-
