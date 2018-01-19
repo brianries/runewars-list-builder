@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createMuiTheme } from 'material-ui/styles';
 import red from 'material-ui/colors/red';
 import blue from 'material-ui/colors/blue';
+import Reboot from 'material-ui/Reboot';
 
 import './index.css';
 
@@ -30,6 +31,7 @@ ReactDOM.render(
     <Provider store={store}>
 		<MuiThemeProvider theme={theme}>
 			<div>
+				<Reboot />
 				<Layout unitReferenceMap={unitReferenceMap} upgradeReferenceMap={upgradeReferenceMap}/>
 			</div>
 		</MuiThemeProvider>

@@ -10,9 +10,11 @@ import UnitList from './UnitList';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardMedia } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 
 import {connect} from 'react-redux'
-//import './Layout.css';
+
+import './UnitCard.css';
 
 // Needed for onTouchTap (http://stackoverflow.com/a/34015469/988941)
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -26,6 +28,7 @@ function importAllImages(r) {
 	return images;
 }
 
+var cardMap = importAllImages(require.context('../cards', false, /\.png/));
 var dialMap = importAllImages(require.context('../dials', false, /\.png/));
 
 document.body.style.backgroundColor = "gray";
@@ -48,11 +51,25 @@ const styles = theme => ({
 		marginLeft: 20,
 		marginRight: 20,
 	},
-	media: {
-	  width: 400,
-	  height: 200,
+	unitCard: {
+		height: 300,
+		backgroundColor: 'black',
+	  },
+	dial: {
+		height: 300,
+		backgroundColor: 'black',
+	},
+	gridList: {
+		//width: 500,
+		//height: 450,
+		// Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+		//transform: 'translateZ(0)',
 	},
   });
+
+  const dialStyle = {
+	  height: 200,
+  }
 
 		 
 class Layout extends Component {
@@ -86,15 +103,35 @@ class Layout extends Component {
 					<Grid item xs={4}>
 						<Card className={classes.card}>						
 							<CardContent>
-								<Typography type="headline" component="h2">				
-									{getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+								<Typography type="headline">				
+									{getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+								</Typography>
+							</CardContent>
+							<CardContent>
+								<Typography type="subheading">				
+									Cards
 								</Typography>
 							</CardContent>
 							<CardMedia 
-								className={classes.media}
-								image={getCardDisplayedDial(this.props.cardDisplayed, this.props.unitReferenceMap)}
-								title={getCardDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+								className={classes.unitCard}
+								image={getUnitDisplayedCard(this.props.cardDisplayed, this.props.unitReferenceMap)}
+								title={getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
 							/>
+							<CardContent>
+								<Typography type="subheading">				
+									Dial
+								</Typography>
+							</CardContent>
+							<CardMedia 
+								className={classes.dial}
+								image={getUnitDisplayedDial(this.props.cardDisplayed, this.props.unitReferenceMap)}
+								title={getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+							/>
+							<CardContent>
+								<Typography type="subheading">				
+									Upgrade
+								</Typography>
+							</CardContent>
 						</Card>
 					</Grid>
 				</Grid>
@@ -103,26 +140,50 @@ class Layout extends Component {
 	}	
 }
 
-function getCardDisplayedTitle(cardDisplayed, unitReferenceMap, upgradeReferenceMap) {
-	if (typeof cardDisplayed !== 'undefined') {
-		if (cardDisplayed.type === 'unit' && cardDisplayed.id !== null) {
-			return unitReferenceMap.units[cardDisplayed.id].name;
-		}
-		else if (cardDisplayed.type === 'upgrade' && cardDisplayed.id !== null) {
-			return upgradeReferenceMap.upgrades[cardDisplayed.id].name;
+/*
+	<GridList cellHeight={500} spacing={1} className={classes.gridList}>
+							<GridListTile key={getUnitDisplayedDial(this.props.cardDisplayed, this.props.unitReferenceMap)} cols={1} rows={1}>
+								<img src={getUnitDisplayedDial(this.props.cardDisplayed, this.props.unitReferenceMap)} style={dialStyle} alt={getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)} />
+								<GridListTileBar
+									title={getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)}
+									titlePosition="top"
+								/>
+							</GridListTile>
+						</GridList>
+						<GridList cellHeight={500} spacing={1} className={classes.gridList}>
+							<GridListTile key={getUnitDisplayedCard(this.props.cardDisplayed, this.props.unitReferenceMap)} cols={1} rows={1}>
+								<img src={getUnitDisplayedCard(this.props.cardDisplayed, this.props.unitReferenceMap)} style={dialStyle} alt={getUnitDisplayedTitle(this.props.cardDisplayed, this.props.unitReferenceMap, this.props.upgradeReferenceMap)} />
+							</GridListTile>
+						</GridList>
+*/						
+
+function getUnitDisplayedTitle(unitDisplayed, unitReferenceMap, upgradeReferenceMap) {
+	if (typeof unitDisplayed !== 'undefined') {
+		if (unitDisplayed.type === 'unit' && unitDisplayed.id !== null) {
+			return unitReferenceMap.units[unitDisplayed.id].name;
 		}
 	}
 	return "Nothing selected"
 }
 
-function getCardDisplayedDial(cardDisplayed, unitReferenceMap) {
-	if (typeof cardDisplayed !== 'undefined') {
-		if (cardDisplayed.type === 'unit' && cardDisplayed.id !== null) {
-			return dialMap[unitReferenceMap.units[cardDisplayed.id].dial_image]
+function getUnitDisplayedDial(unitDisplayed, unitReferenceMap) {
+	if (typeof unitDisplayed !== 'undefined') {
+		if (unitDisplayed.type === 'unit' && unitDisplayed.id !== null) {
+			return dialMap[unitReferenceMap.units[unitDisplayed.id].dial_image]
 		}
 	}
 	return null;
 }
+
+function getUnitDisplayedCard(unitDisplayed, unitReferenceMap) {
+	if (typeof unitDisplayed !== 'undefined') {
+		if (unitDisplayed.type === 'unit' && unitDisplayed.id !== null) {
+			return cardMap[unitReferenceMap.units[unitDisplayed.id].card_image]
+		}
+	}
+	return null;
+}
+
 
 function mapStateToProps(state) {
 	return {

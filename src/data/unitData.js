@@ -13,11 +13,11 @@ export default
             "special_abilities": [0],
             "enhancements": ["Brutal 1", "Precise 1"],
             "deployment_ability": "Aymhelin Allies: Your army can include 1 non-unique infantry unit from the Latari Elves.",
+            "card_image": "kari_wraithstalker_card.png",
             "dial_image": "kari_wraithstalker.png",
             "formations": [
                 { "id": 0, "size": "1x1", "cost": 32, "upgradeTypes": ["Artifact", "Unique"]}
             ]
-            
         },
         {
             "id": 1,
@@ -31,6 +31,7 @@ export default
             "special_abilities": [1,2,3],
             "enhancements": ["Brutal 1"],
             "deployment_ability": "Lessons of Seargart Allies: Your army can include 1 non-unique infantry unit from the Latari Elves.",
+            "card_image": "lord_hawthorne_card.png",
             "dial_image": "lord_hawthorne.png",
             "formations": [
                 { "id": 0, "size": "1x1", "cost": 34, "upgradeTypes": ["Artifact", "Unique"]}
@@ -48,6 +49,7 @@ export default
             "special_abilities": [1],
             "enhancements": null,
             "deployment_ability": null,
+            "card_image": "spearmen_card.png",
             "dial_image": "spearmen.png",
             "formations": [
                 { "id": 0, "size": "2x1", "cost": 18, "upgradeTypes": ["Equipment", "Music"] },
@@ -68,6 +70,7 @@ export default
             "special_abilities": [1],
             "enhancements": ["Impact 1"],
             "deployment_ability": null,
+            "card_image": "oathsworn_cavalry_card.png",
             "dial_image": "oathsworn_cavalry.png",
             "formations": [
                 { "id": 0, "size": "2x1", "cost": 20, "upgradeTypes": ["Equipment", "Skill"] },
@@ -88,6 +91,7 @@ export default
             "special_abilities": [4],
             "enhancements": ["Brutal {Stable Energy}"],
             "deployment_ability": null,
+            "card_image": "rune_golems_card.png",
             "dial_image": "rune_golems.png",
             "formations": [
                 { "id": 0, "size": "1x1", "cost": 17, "upgradeTypes": [] },
@@ -108,11 +112,32 @@ export default
             "special_abilities": [5],
             "enhancements": ["Protected 1"],
             "deployment_ability": null,
+            "card_image": "heavy_crossbowmen_card.png",
             "dial_image": "heavy_crossbowmen.png",
             "formations": [
                 { "id": 0, "size": "2x1", "cost": 19, "upgradeTypes": ["Skill"] },
                 { "id": 1, "size": "3x1", "cost": 27, "upgradeTypes": ["Skill", "Equipment", "Music"] },
                 { "id": 2, "size": "3x2", "cost": 48, "upgradeTypes": ["Skill", "Equipment", "Music", "Champion"] }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Outland Scouts",
+            "faction": "Daqan",
+            "unit_type": "Infantry",
+            "defense": 1,
+            "wound_threshold": 1,
+            "melee_attack": ["Blue", "Blue"],
+            "ranged_attack": null,
+            "special_abilities": [6],
+            "enhancements": null,
+            "deployment_ability": "Scout: Deploy after the 'Deploy Units' step of setup. You may then perform any blue action and matching modifier",
+            "card_image": "outland_scouts_card.png",
+            "dial_image": "outland_scouts.png",
+            "formations": [
+                { "id": 0, "size": "2x1", "cost": 21, "upgradeTypes": ["Skill"] },
+                { "id": 1, "size": "2x2", "cost": 32, "upgradeTypes": ["Skill", "Champion"] },
+                { "id": 2, "size": "3x2", "cost": 43, "upgradeTypes": ["Skill", "Champion"] }
             ]
         }
     ],
@@ -159,6 +184,13 @@ export default
             "type": "Ranged",
             "surge-modifier": "Double Unique Surge",
             "description": "If the defender is at range 1-3 add {Mortal Strike}"
-        }
+        },
+        {
+            "id": 6,
+            "name": "Outland Scouts: Surge damage",
+            "type": "Melee",
+            "surge-modifier": "Double Surge",
+            "description": "Add {Hit}"
+        },
     ]    
 }
